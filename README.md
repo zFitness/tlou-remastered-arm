@@ -32,6 +32,7 @@ translates its graphics to Vulkan.
 - [Tested environments](#tested-environments)
 - [Requirements for Android](#requirements-for-android)
 - [Installing an Android Port package](#installing-an-android-port-package)
+- [Game and update folder layout](#game-and-update-folder-layout)
 - [Controls and settings](#controls-and-settings)
 - [Performance and known limitations](#performance-and-known-limitations)
 - [Source and builds](#source-and-builds)
@@ -135,7 +136,8 @@ If you have an Android development package named **`tlou-port.zip`**:
 2. Copy `tlou-port.zip` to the device, for example into **Download**. Keep it as a ZIP for import.
 3. In nixport, open **Library → Import Port package** and select the ZIP.
 4. Open the imported **The Last of Us Remastered** entry and start **TLOU Launcher**.
-5. Choose your game and update folders in the launcher, save the settings and press **Play**.
+5. Choose the base game folder in the launcher, save the settings and press **Play**. The update
+   folder is detected automatically as described below.
 
 The package includes `port.json`, `TLOU-Remastered-arm64.AppImage` and `virtualkeys.json`.
 The host imports the package and installs the game's default on-screen controls.
@@ -143,6 +145,44 @@ The game files themselves remain separate and are not included in the Port.
 
 When updating, close the running Port before importing a replacement. Back up your saves and
 settings first, and retain the previous working package for rollback.
+
+## Game and update folder layout
+
+Keep your own decrypted base game and the extracted **01.11** update in separate, sibling
+folders. The following example reflects the tested device's layout; the parent directory may
+be different on your device:
+
+```text
+/sdcard/Download/games/ps4/TLOU/
+├── CUSA00559/                  # Base game: select this folder in the launcher
+│   ├── eboot.bin
+│   ├── data.psarc
+│   ├── sce_module/
+│   ├── sce_sys/
+│   │   └── param.sfo
+│   └── ...                     # Other original game files
+└── CUSA00559-update/           # Extracted update 01.11
+    ├── eboot.bin
+    ├── patch.psarc
+    ├── sce_module/
+    ├── sce_sys/
+    │   └── param.sfo
+    └── ...                     # Other update files
+```
+
+1. Prepare the base dump and the separately extracted update for the **same title ID**. The
+   update folder must contain `eboot.bin` and `sce_sys/param.sfo` directly at the shown paths.
+   A `.pkg` file beside the game is not itself the extracted update folder.
+2. Select the **base game folder** (`CUSA00559` here), not the update folder, in the launcher.
+   The startup chain looks beside it for a folder named after the base with `-update`, `-patch`,
+   `_update` or `_patch` appended; matching is case-insensitive. Keep only the intended matching
+   update folder beside the game to avoid ambiguity.
+3. On startup, the update's executable and matching update files take precedence over the base.
+   Check the startup log for the detected update path and version. If no update is found, check
+   the folder names, contents and Android file access; the game may otherwise start from the base.
+
+The example is for **CUSA00559 + 01.11**; other title IDs and updates need their own matching
+files and have not been established as compatible. Do not upload game or update files.
 
 ## Controls and settings
 
@@ -161,6 +201,10 @@ Use the host's log/report tools when reporting problems; do not delete your data
 an input or rendering issue.
 
 ## Performance and known limitations
+
+If the game crashes or reports an error, try disabling the graphics patches and selecting
+**native** under the launcher’s render resolution, then restart the game. This can help isolate
+the issue; it does not establish the cause.
 
 - Shader compilation can cause pauses when first entering an area.
 - Performance depends on the scene, driver, game build, shader cache and device temperature.
