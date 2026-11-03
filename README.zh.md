@@ -94,7 +94,7 @@ Android 移植版仍在准备和调试，属于实验功能。本 README 没有�
 
 如果你已经有名为 **`tlou-port.zip`** 的 Android 开发包：
 
-1. 安装 nixport，完成首次运行环境配置。
+1. 安装 [nixport](https://github.com/zFitness/nixport/releases)，完成首次运行环境配置。
 2. 将 `tlou-port.zip` 复制到设备，例如 **Download**，保持 ZIP 格式。
 3. 在 nixport 中打开 **游戏库 → 导入 Port 包**，选择 ZIP。
 4. 打开导入的 **The Last of Us Remastered** 条目，启动 **TLOU Launcher**。

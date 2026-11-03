@@ -131,7 +131,7 @@ An upstream Windows ZIP cannot be imported as the Android Port.
 
 If you have an Android development package named **`tlou-port.zip`**:
 
-1. Install nixport and let its initial runtime setup finish.
+1. Install [nixport](https://github.com/zFitness/nixport/releases) and let its initial runtime setup finish.
 2. Copy `tlou-port.zip` to the device, for example into **Download**. Keep it as a ZIP for import.
 3. In nixport, open **Library → Import Port package** and select the ZIP.
 4. Open the imported **The Last of Us Remastered** entry and start **TLOU Launcher**.
